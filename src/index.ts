@@ -2,10 +2,10 @@ import type { LoadConfigOptions, LoadConfigResult, LoadConfigSource } from './ty
 import { promises as fs } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 import process from 'node:process'
+import { pathToFileURL } from 'node:url'
 import { notNullish, toArray } from '@antfu/utils'
 import defu from 'defu'
 import { findUp } from './fs'
-import { interopDefault } from './interop'
 import { defaultExtensions } from './types'
 
 export * from './types'
@@ -104,7 +104,7 @@ export async function loadConfig<T>(options: LoadConfigOptions<T>): Promise<Load
 async function loadConfigFile<T>(
   filepath: string,
   source: LoadConfigSource<T>,
-  options: LoadConfigOptions,
+  _options: LoadConfigOptions,
 ): Promise<LoadConfigResult<T> | undefined> {
   let config: T | undefined
 
@@ -146,29 +146,11 @@ async function loadConfigFile<T>(
         config = await parser(filepath)
       }
       else if (parser === 'require' || parser === 'import') {
-        config = await import('importx')
-          .then(async (r) => {
-            let mod = await r.import(bundleFilepath, {
-              parentURL: filepath,
-              cache: false,
-              loader: source.loader,
-              fallbackLoaders: source.fallbackLoaders,
-              loaderOptions: {
-                ...options.importx?.loaderOptions,
-                ...source.importx?.loaderOptions,
-                jiti: {
-                  interopDefault: true,
-                  ...options.importx?.loaderOptions?.jiti,
-                  ...source.importx?.loaderOptions?.jiti,
-                },
-              },
-              ...options.importx,
-              ...source.importx,
-            })
-            dependencies = r.getModuleInfo(mod)?.dependencies
-            mod = interopDefault(mod)
-            return interopDefault(mod)
-          })
+        // Normalize Windows path
+        const importPath = bundleFilepath.match(/^[a-z]:/i)
+          ? pathToFileURL(bundleFilepath).href
+          : bundleFilepath
+        config = (await import(`${importPath}?t=${Date.now()}`)).default
       }
       else if (parser === 'json') {
         config = JSON.parse(await read())

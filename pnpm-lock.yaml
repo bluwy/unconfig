@@ -14,9 +14,6 @@ importers:
       defu:
         specifier: ^6.1.4
         version: 6.1.4
-      importx:
-        specifier: ^0.5.0
-        version: 0.5.0
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^3.7.3
@@ -36,6 +33,9 @@ importers:
       esno:
         specifier: ^4.7.0
         version: 4.7.0
+      importx:
+        specifier: ^0.5.0
+        version: 0.5.0
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1504,7 +1504,7 @@ packages:
     resolution: {integrity: sha512-P7qDB/RckdKETpBM4CtjHRQ5qXByPmFhRi86sN3E+J+tySchq+RSOGGhI2hDIefmmKFuTi/1ACjqsnDJDDDfzg==}
     engines: {node: '>=18'}
     peerDependencies:
-      eslint: ^9.11.1
+      eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
 
   eslint-plugin-jsonc@2.16.0:
     resolution: {integrity: sha512-Af/ZL5mgfb8FFNleH6KlO4/VdmDuTqmM+SPnWcdoWywTetv7kq+vQe99UyQb9XO3b0OWLVuTH7H0d/PXYCMdSg==}
@@ -1527,7 +1527,7 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       astro-eslint-parser: ^1.0.2
-      eslint: ^9.11.1
+      eslint: '>=8.0.0'
       svelte: '>=3.0.0'
       svelte-eslint-parser: ^0.41.1
       vue-eslint-parser: '>=9.0.0'

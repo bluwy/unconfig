@@ -1,5 +1,4 @@
 import type { Arrayable, Awaitable } from '@antfu/utils'
-import type { ImportxOptions as ImportxOptionsFull, SupportedLoader } from 'importx'
 
 export const defaultExtensions = ['mts', 'cts', 'ts', 'mjs', 'cjs', 'js', 'json', '']
 
@@ -7,7 +6,7 @@ export type BuiltinParsers = 'require' | 'json' | 'import'
 
 export type CustomParser<T> = (filepath: string) => Awaitable<T | undefined>
 
-export type ImportxOptions = Partial<Omit<ImportxOptionsFull, 'parentURL'>>
+export type ImportxOptions = Record<string, any>
 
 export interface LoadConfigSource<T = any> {
   files: Arrayable<string>
@@ -35,7 +34,7 @@ export interface LoadConfigSource<T = any> {
    * @default 'auto'
    * @deprecated use `importx.loader` instead
    */
-  loader?: SupportedLoader | 'auto'
+  loader?: string
 
   /**
    * Fallback loaders when the previous loader failed.
@@ -45,7 +44,7 @@ export interface LoadConfigSource<T = any> {
    * Default to importx's default.
    * @deprecated use `importx.fallbackLoaders` instead
    */
-  fallbackLoaders?: SupportedLoader[] | false
+  fallbackLoaders?: string[] | false
 
   /**
    * Rewrite the config object,

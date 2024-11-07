@@ -4,6 +4,33 @@
 
 A universal solution for loading configurations.
 
+## This is a fork
+
+The goal of this fork is to remove `importx` as it brings in a large dependency graph. If you're:
+
+- Using plain JSON, JS, or TS (that's supported by the environment, like Deno or Bun)
+- Only editing the config file and not the files it's importing (those files would require a hard restart)
+- Writing in plain ESM or CJS syntax (not mixed, no illegal use of `__filename` in ESM, etc)
+
+In other words, have a very simple config file, then this fork should help reduce the dependencies needed to install in your project. (Sorry Anthony but I wanted to trim it down for my own projects 😅)
+
+This fork is meant to be used as an override. For example:
+
+```json
+{
+  "overrides": {
+    "unconfig": "npm:@bluwy/unconfig@^0.6.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "unconfig": "npm:@bluwy/unconfig@^0.6.0"
+    }
+  }
+}
+```
+
+DO NOT USE THIS FORK DIRECTLY.
+
 ## Why?
 
 Configuration is hard, especially when you want to build an ecosystem of your tools.
